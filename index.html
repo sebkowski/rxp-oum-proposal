@@ -96,10 +96,10 @@
     left: 72px;
     right: 72px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    gap: 24px;
     z-index: 2;
-    animation: fadeDown 1s 0.3s both;
   }
   .hero-logos img {
     height: 44px;
@@ -107,7 +107,30 @@
   }
   .hero-logos .oum-logo {
     height: 52px;
-    filter: brightness(0) invert(1);
+  }
+  .hero-logos .logo-enter-left {
+    animation: slideFromLeft 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+  }
+  .hero-logos .logo-enter-right {
+    animation: slideFromRight 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+  }
+  .hero-logos .logo-divider {
+    width: 1px;
+    height: 40px;
+    background: rgba(255,255,255,0.2);
+    animation: dividerGrow 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.0s both;
+  }
+  @keyframes slideFromLeft {
+    from { opacity: 0; transform: translateX(-60px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes slideFromRight {
+    from { opacity: 0; transform: translateX(60px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes dividerGrow {
+    from { opacity: 0; transform: scaleY(0); }
+    to { opacity: 1; transform: scaleY(1); }
   }
   @keyframes fadeDown {
     from { opacity: 0; transform: translateY(-20px); }
@@ -473,7 +496,7 @@
     margin-bottom: 24px;
   }
   .footer-logos img { height: 36px; }
-  .footer-logos .oum-logo { height: 44px; filter: brightness(0) invert(1); }
+  .footer-logos .oum-logo { height: 44px; }
   .footer-logos .divider {
     width: 1px;
     height: 32px;
@@ -488,18 +511,20 @@
 <!-- ═══════════════════ HERO ═══════════════════ -->
 <div class="hero">
   <div class="hero-logos">
-    <img src="images/rxp-logo-white.png" alt="RXP">
-    <img src="images/oum-logo.svg" alt="Open University Malaysia" class="oum-logo">
+    <img src="images/rxp-logo-white.png" alt="RXP" class="logo-enter-left">
+    <div class="logo-divider"></div>
+    <img src="images/oum-logo.svg" alt="Open University Malaysia" class="oum-logo logo-enter-right">
   </div>
   <div class="hero-content">
-    <div class="hero-badge">Event Proposal &mdash; September 2026</div>
+    <div class="hero-badge">Event Proposal &mdash; August 2026</div>
     <h1>Visionary Leadership<br>Public Lecture Series</h1>
     <div class="subtitle">Humanising Digital Education: Charting the Futures</div>
     <div class="subtitle" style="font-size:14px; margin-top:12px; color: var(--text-muted);">Prepared for Centre for Digital Education Futures (CENDEF)<br>Open University Malaysia</div>
     <div class="meta">
-      <span>Saturday, 12 September 2026</span>
+      <span>Tuesday, 4 August 2026</span>
       <span>RXP @ REXKL, Kuala Lumpur</span>
-      <span>100 &ndash; 150 Guests</span>
+      <span>9:00 AM &ndash; 5:00 PM</span>
+      <span>~230 Guests</span>
     </div>
   </div>
 </div>
@@ -511,7 +536,7 @@
       <div class="section-label">01 &mdash; Overview</div>
       <h2>An Immersive Setting for<br>Visionary Discourse</h2>
       <p>Building on the success of the 2025 series, the 2026 Public Lecture Series moves into a space that embodies the "Digital Future." RXP @ REXKL provides a fully immersive, high-tech environment &mdash; 360-degree projection mapping, architectural-scale visuals, and spatial audio &mdash; that transforms a lecture into an experience.</p>
-      <p>Our proposal focuses on spatial transformation, premium hospitality for VVIPs, and seamless flow for a boutique audience of 100&ndash;150 participants.</p>
+      <p>This proposal accommodates approximately 230 attendees &mdash; 100 external guests (including 50 VIPs), 80 participants, and 50 OUM staff &mdash; with a full-day programme from 9:00 AM to 5:00 PM, premium VVIP hospitality, and three catered meal breaks.</p>
     </div>
 
     <div class="card-grid">
@@ -523,12 +548,12 @@
       <div class="card reveal reveal-delay-2">
         <div class="stat">Up to 300</div>
         <h3>Seating Capacity</h3>
-        <p>Configurable from intimate 100-pax lecture to full 300-pax. This event optimised for 150 with premium spacing.</p>
+        <p>Configurable up to 300 pax. This event: ~230 attendees with 50 VIP seated section and comfortable spacing throughout.</p>
       </div>
       <div class="card reveal reveal-delay-3">
         <div class="stat">19.3 sqm</div>
-        <h3>VVIP Holding Room</h3>
-        <p>Artist Room behind stage. 8&ndash;10 pax, premium sofa set for Minister &amp; Global Fellows</p>
+        <h3>VVIP Holding &amp; Media Room</h3>
+        <p>Artist Room behind stage. Doubles as VVIP holding room and media conference room. Premium sofa set, 8&ndash;10 pax.</p>
       </div>
     </div>
   </div>
@@ -567,7 +592,7 @@
       </div>
       <div class="card reveal reveal-delay-2">
         <h3>Seating Layout</h3>
-        <p>100&ndash;150 premium chairs in lecture rows with wide spacing. Networking stools at the rear. Bean bag lounge for casual breakout.</p>
+        <p>~230 pax lecture configuration. 50 VIP seated section at the front. Networking stools at the rear. Bean bag lounge for casual breakout zones.</p>
       </div>
       <div class="card reveal reveal-delay-3">
         <h3>Media &amp; Interview Area</h3>
@@ -584,29 +609,57 @@
   <div class="section">
     <div class="reveal">
       <div class="section-label">04 &mdash; Hospitality</div>
-      <h2>Two-Tier Dining</h2>
-      <p>A split-venue strategy ensures VVIPs receive a premium sit-down experience while general guests enjoy a curated buffet at Food Fiction, located one floor below RXP.</p>
+      <h2>Full-Day Catering</h2>
+      <p>Three meal services across the day &mdash; morning tea, lunch, and afternoon tea &mdash; with separate arrangements for VVIPs, general guests, and OUM staff.</p>
     </div>
 
-    <div class="tier-grid">
+    <div class="card-grid" style="grid-template-columns: 1fr 1fr 1fr; margin-top: 36px;">
+      <div class="card reveal reveal-delay-1" style="text-align:center;">
+        <div class="stat" style="font-size:22px;">9:00 AM</div>
+        <h3>Morning Tea</h3>
+        <p>Light refreshments for all guests on arrival</p>
+      </div>
+      <div class="card reveal reveal-delay-2" style="text-align:center;">
+        <div class="stat" style="font-size:22px;">12:30 PM</div>
+        <h3>Lunch</h3>
+        <p>VVIP sit-down + general guest buffet + OUM staff separate</p>
+      </div>
+      <div class="card reveal reveal-delay-3" style="text-align:center;">
+        <div class="stat" style="font-size:22px;">3:30 PM</div>
+        <h3>Afternoon Tea</h3>
+        <p>Light refreshments before closing sessions</p>
+      </div>
+    </div>
+
+    <div class="tier-grid" style="grid-template-columns: 1fr 1fr 1fr; margin-top: 24px;">
       <div class="tier vip reveal reveal-delay-1">
-        <h3>VVIP &amp; Speakers Lunch</h3>
-        <div class="venue-name">Pickle Dining &mdash; 1st Floor, REXKL</div>
+        <h3>VVIP Lunch</h3>
+        <div class="venue-name">Pickle Dining &mdash; 1st Floor</div>
         <ul>
-          <li>34 pax &mdash; dedicated private section</li>
+          <li>~50 VIP pax &mdash; seated</li>
           <li>Premium sit-down curated menu</li>
-          <li>Alternative: Reuben's Bar (2nd Floor), up to 50 pax</li>
+          <li>Alternative: Reuben's Bar (2nd Floor)</li>
           <li>Est. RM 80/pax</li>
         </ul>
       </div>
       <div class="tier reveal reveal-delay-2">
-        <h3>General Guest Buffet</h3>
+        <h3>General Guest Lunch</h3>
         <div class="venue-name">Food Fiction &mdash; One Floor Below RXP</div>
         <ul>
-          <li>Approx. 100&ndash;115 pax</li>
+          <li>~130 pax (external guests + participants)</li>
           <li>Buffet-style service</li>
           <li>Premium local &amp; international cuisines</li>
-          <li>Convenient one-floor access from event space</li>
+          <li>One-floor access from event space</li>
+        </ul>
+      </div>
+      <div class="tier reveal reveal-delay-3">
+        <h3>OUM Staff Meals</h3>
+        <div class="venue-name">Separate Room &mdash; REXKL</div>
+        <ul>
+          <li>~50 OUM staff</li>
+          <li>Served separately from guest areas</li>
+          <li>All 3 meal breaks covered</li>
+          <li>Dedicated space allocation</li>
         </ul>
       </div>
     </div>
@@ -684,13 +737,13 @@
       <tbody>
         <tr>
           <td><strong>Venue Hire</strong></td>
-          <td>1 Event Day (Saturday, Weekend Rate)<br><span class="desc">RXP Hall 518 sqm, Artist Room / VVIP Holding, Foyer &amp; Registration. Up to 300 pax.</span></td>
-          <td class="struck">25,000</td>
-          <td>15,000 <span class="savings-badge">SAVE 40%</span></td>
+          <td>1 Event Day (Tuesday, Weekday Rate)<br><span class="desc">RXP Hall 518 sqm, Artist Room / VVIP &amp; Media Room, Foyer &amp; Registration. Up to 300 pax.</span></td>
+          <td class="struck">20,000</td>
+          <td>15,000 <span class="savings-badge">SAVE 25%</span></td>
         </tr>
         <tr>
           <td><strong>Setup Day</strong></td>
-          <td>1 Weekday (Friday) &mdash; Full Access<br><span class="desc">Stage build, seating, AV calibration, rehearsal</span></td>
+          <td>1 Weekday (Monday 3 Aug) &mdash; Full Access<br><span class="desc">Stage build, seating, AV calibration, rehearsal</span></td>
           <td class="struck">10,000</td>
           <td style="color: var(--green); font-weight: 700;">FOC</td>
         </tr>
@@ -703,12 +756,12 @@
         <tr>
           <td><strong>Atmospheric Sync</strong></td>
           <td>Sound &amp; Light Integration<br><span class="desc">Stage lighting, spatial audio, full technical crew. Setup + event day.</span></td>
-          <td></td>
-          <td>11,000</td>
+          <td class="struck">11,000</td>
+          <td style="color: var(--green); font-weight: 700;">FOC</td>
         </tr>
         <tr>
           <td><strong>Climate Control</strong></td>
-          <td>Supplementary Air Conditioning<br><span class="desc">Guest comfort for 150 pax enclosed immersive environment</span></td>
+          <td>Supplementary Air Conditioning<br><span class="desc">Guest comfort for 230 pax enclosed immersive environment</span></td>
           <td></td>
           <td>9,500</td>
         </tr>
@@ -726,34 +779,34 @@
         </tr>
         <tr>
           <td><strong>VVIP Catering</strong></td>
-          <td>Pickle Dining / Reuben's Bar<br><span class="desc">Sit-down lunch, 34 VVIP pax @ RM 80/pax</span></td>
+          <td>Pickle Dining / Reuben's Bar<br><span class="desc">Sit-down lunch for ~50 VIP pax @ RM 80/pax</span></td>
           <td></td>
-          <td>2,720</td>
+          <td>4,000</td>
         </tr>
         <tr>
           <td><strong>Guest Catering</strong></td>
-          <td>Food Fiction Buffet<br><span class="desc">Approx. 115 pax &mdash; vendor quote pending</span></td>
+          <td>Full-day F&amp;B (morning tea + lunch + afternoon tea)<br><span class="desc">~130 external guests via Food Fiction + ~50 OUM staff separate. Vendor quotes pending.</span></td>
           <td></td>
           <td>TBC</td>
         </tr>
         <tr class="discount">
           <td colspan="3"><strong>OUM/CENDEF Collaboration Savings</strong></td>
-          <td><strong>&minus; RM 35,000</strong></td>
+          <td><strong>&minus; RM 46,000</strong></td>
         </tr>
         <tr class="subtotal">
           <td colspan="3"><strong>Total (excl. general catering)</strong></td>
-          <td><strong>RM 63,220</strong></td>
+          <td><strong>RM 53,500</strong></td>
         </tr>
         <tr class="total">
           <td colspan="3">Estimated Total</td>
-          <td>RM 63,220 + catering TBC</td>
+          <td>RM 53,500 + catering TBC</td>
         </tr>
       </tbody>
     </table>
 
     <p class="reveal" style="margin-top: 28px; font-size: 12.5px;">
       * All prices in Malaysian Ringgit (MYR), exclusive of SST where applicable.<br>
-      * Venue hire and setup reflect preferential OUM/CENDEF rate. Standard weekend rate: RM 25,000 + RM 10,000 setup.<br>
+      * Venue hire, setup day, and atmospheric sync reflect preferential OUM/CENDEF rate. Standard weekday rate: RM 20,000 + RM 10,000 setup + RM 11,000 sound &amp; light.<br>
       * General catering quote pending from Food Fiction.
     </p>
   </div>
@@ -768,11 +821,11 @@
     <div class="timeline">
       <div class="timeline-item reveal reveal-delay-1">
         <h4>Confirm Event Date &amp; Guest Count</h4>
-        <p>Lock in Saturday 12 September 2026 and confirm final headcount for seating and catering.</p>
+        <p>Lock in Tuesday 4 August 2026 and confirm final headcount (~230 pax) for seating and catering.</p>
       </div>
       <div class="timeline-item reveal reveal-delay-2">
         <h4>Finalise Catering Packages</h4>
-        <p>Pickle Dining quote for 34-pax VVIP. Food Fiction buffet for general guests. Reuben's Bar as overflow.</p>
+        <p>Three meal breaks: morning tea, lunch, afternoon tea. Pickle Dining for 50 VIP lunch. Food Fiction buffet for ~130 guests. Separate meals for 50 OUM staff.</p>
       </div>
       <div class="timeline-item reveal reveal-delay-3">
         <h4>Approve Floor Plan</h4>
@@ -783,7 +836,7 @@
         <p>OUM/CENDEF branding assets and speaker info for 360&deg; projection visuals.</p>
       </div>
       <div class="timeline-item reveal">
-        <h4>Setup Day &mdash; Friday 11 September</h4>
+        <h4>Setup Day &mdash; Monday 3 August</h4>
         <p>Full-day build: stage, seating, AV calibration, lighting, and rehearsal.</p>
       </div>
     </div>
