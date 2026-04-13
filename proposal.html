@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RXP @ REXKL — Event Proposal for OUM CENDEF</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+  :root {
+    --bg: #08080d;
+    --surface: #111118;
+    --surface-2: #1a1a24;
+    --border: #252533;
+    --text: #eaeaf2;
+    --text-muted: #8585a0;
+    --accent: #7c5cff;
+    --gold: #c9a84c;
+    --gold-soft: rgba(201, 168, 76, 0.08);
+    --green: #4caf50;
+    --red-muted: #aa5555;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.75;
+    font-size: 15px;
+    overflow-x: hidden;
+  }
+
+  @media print {
+    body { background: white; color: #1a1a1a; }
+    .hero { break-after: page; }
+    .section { break-inside: avoid; }
+    .reveal { opacity: 1 !important; transform: none !important; }
+    :root {
+      --bg: white; --surface: #f8f8fa; --surface-2: #f0f0f5;
+      --border: #ddd; --text: #1a1a1a; --text-muted: #555;
+      --accent: #5a3fd4; --gold: #8b6914;
+    }
+  }
+
+  /* ─── REVEAL ANIMATIONS ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  .fade-in {
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+  .fade-in.visible { opacity: 1; }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 720px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 80px 72px;
+    background: linear-gradient(170deg, rgba(8,8,13,0.1) 0%, rgba(8,8,13,0.7) 50%, rgba(8,8,13,0.95) 80%, var(--bg) 100%),
+                url('images/cover-hero.jpg') center/cover no-repeat;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    background: linear-gradient(to top, var(--bg), transparent);
+    pointer-events: none;
+  }
+  .hero-logos {
+    position: absolute;
+    top: 40px;
+    left: 72px;
+    right: 72px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+    animation: fadeDown 1s 0.3s both;
+  }
+  .hero-logos img {
+    height: 44px;
+    object-fit: contain;
+  }
+  .hero-logos .oum-logo {
+    height: 52px;
+    filter: brightness(0) invert(1);
+  }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+  .hero-badge {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(201, 168, 76, 0.4);
+    padding: 8px 20px;
+    margin-bottom: 28px;
+    font-weight: 500;
+    animation: fadeUp 0.8s 0.5s both;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    font-weight: 600;
+    line-height: 1.12;
+    max-width: 720px;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+    animation: fadeUp 0.8s 0.7s both;
+  }
+  .hero .subtitle {
+    font-size: 18px;
+    color: var(--text-muted);
+    font-weight: 300;
+    max-width: 600px;
+    margin-bottom: 6px;
+    animation: fadeUp 0.8s 0.9s both;
+  }
+  .hero .meta {
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 1.5px;
+    margin-top: 28px;
+    animation: fadeUp 0.8s 1.1s both;
+  }
+  .hero .meta span {
+    margin-right: 28px;
+    display: inline-block;
+  }
+  .hero .meta span::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── LAYOUT ─── */
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+  .section {
+    padding: 100px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .section:last-child { border-bottom: none; }
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    letter-spacing: -0.3px;
+  }
+  .section p {
+    color: var(--text-muted);
+    max-width: 680px;
+    margin-bottom: 16px;
+    font-size: 15px;
+  }
+
+  /* ─── CARDS ─── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 48px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px 28px;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .card:hover {
+    border-color: rgba(124, 92, 255, 0.3);
+    transform: translateY(-4px);
+  }
+  .card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .card .stat {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1;
+  }
+  .card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+  /* ─── FEATURED IMAGE ─── */
+  .featured-img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    border-radius: 16px;
+    margin-top: 48px;
+  }
+  .featured-caption {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  /* ─── PHOTO GRID ─── */
+  .photo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .photo-grid img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 12px;
+    transition: transform 0.4s;
+  }
+  .photo-grid img:hover { transform: scale(1.02); }
+  .photo-grid .wide {
+    grid-column: 1 / -1;
+    height: 340px;
+  }
+
+  /* ─── PRICING TABLE ─── */
+  .pricing-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 36px;
+  }
+  .pricing-table th {
+    text-align: left;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 14px 16px;
+    border-bottom: 2px solid var(--border);
+    font-weight: 500;
+  }
+  .pricing-table th:nth-child(3),
+  .pricing-table th:last-child { text-align: right; }
+  .pricing-table td {
+    padding: 18px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    vertical-align: top;
+  }
+  .pricing-table td:nth-child(3),
+  .pricing-table td:last-child {
+    text-align: right;
+    font-weight: 600;
+    font-size: 15px;
+    white-space: nowrap;
+  }
+  .pricing-table .desc { color: var(--text-muted); font-size: 12.5px; line-height: 1.5; }
+  .pricing-table .subtotal td {
+    border-top: 2px solid var(--border);
+    border-bottom: none;
+    padding-top: 28px;
+    font-size: 16px;
+  }
+  .pricing-table .total td {
+    font-size: 22px;
+    color: var(--gold);
+    font-family: 'Playfair Display', serif;
+    padding-top: 16px;
+    border-bottom: none;
+  }
+  .pricing-table .discount td { color: var(--green); border-bottom: none; }
+  .struck { text-decoration: line-through; color: var(--red-muted) !important; font-weight: 400 !important; }
+  .savings-badge {
+    display: inline-block;
+    background: rgba(76, 175, 80, 0.12);
+    color: var(--green);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-left: 8px;
+  }
+
+  /* ─── TIMELINE ─── */
+  .timeline {
+    margin-top: 48px;
+    position: relative;
+    padding-left: 36px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), var(--border));
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 36px;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -33px;
+    top: 8px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px rgba(124, 92, 255, 0.4);
+  }
+  .timeline-item h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .timeline-item p { font-size: 14px; color: var(--text-muted); }
+
+  /* ─── HOSPITALITY ─── */
+  .tier-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 36px;
+  }
+  .tier {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .tier:hover { border-color: rgba(124, 92, 255, 0.3); }
+  .tier.vip { border-color: rgba(201, 168, 76, 0.4); }
+  .tier.vip:hover { border-color: var(--gold); }
+  .tier.vip::before {
+    content: 'VVIP';
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    color: var(--gold);
+    border: 1px solid rgba(201, 168, 76, 0.4);
+    padding: 4px 12px;
+    border-radius: 6px;
+  }
+  .tier h3 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+  .tier .venue-name { color: var(--accent); font-size: 13px; font-weight: 500; margin-bottom: 16px; }
+  .tier ul { list-style: none; }
+  .tier ul li {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    padding: 5px 0 5px 18px;
+    position: relative;
+  }
+  .tier ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 14px;
+    width: 6px;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ─── PARKING ─── */
+  .parking-section {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    margin-top: 36px;
+  }
+  .parking-section img {
+    width: 320px;
+    border-radius: 12px;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+  }
+  .parking-info h3 { font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+  .parking-info ul { list-style: none; }
+  .parking-info ul li {
+    font-size: 14px;
+    color: var(--text-muted);
+    padding: 6px 0 6px 18px;
+    position: relative;
+  }
+  .parking-info ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 15px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* ─── NOTE BOX ─── */
+  .note-box {
+    background: var(--gold-soft);
+    border-left: 3px solid var(--gold);
+    padding: 18px 24px;
+    border-radius: 0 12px 12px 0;
+    margin-top: 24px;
+  }
+  .note-box p { color: var(--text); font-size: 13px; margin: 0; max-width: 100%; }
+  .note-box strong { color: var(--gold); }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    padding: 80px 0;
+    text-align: center;
+  }
+  .footer-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+    margin-bottom: 24px;
+  }
+  .footer-logos img { height: 36px; }
+  .footer-logos .oum-logo { height: 44px; filter: brightness(0) invert(1); }
+  .footer-logos .divider {
+    width: 1px;
+    height: 32px;
+    background: var(--border);
+  }
+  .footer p { font-size: 13px; color: var(--text-muted); }
+  .footer .contact-line { margin-top: 28px; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<div class="hero">
+  <div class="hero-logos">
+    <img src="images/rxp-logo-white.png" alt="RXP">
+    <img src="images/oum-logo.svg" alt="Open University Malaysia" class="oum-logo">
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">Event Proposal &mdash; September 2026</div>
+    <h1>Visionary Leadership<br>Public Lecture Series</h1>
+    <div class="subtitle">Humanising Digital Education: Charting the Futures</div>
+    <div class="subtitle" style="font-size:14px; margin-top:12px; color: var(--text-muted);">Prepared for Centre for Digital Education Futures (CENDEF)<br>Open University Malaysia</div>
+    <div class="meta">
+      <span>Saturday, 12 September 2026</span>
+      <span>RXP @ REXKL, Kuala Lumpur</span>
+      <span>100 &ndash; 150 Guests</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ OVERVIEW ═══════════════════ -->
+<div class="container">
+  <div class="section">
+    <div class="reveal">
+      <div class="section-label">01 &mdash; Overview</div>
+      <h2>An Immersive Setting for<br>Visionary Discourse</h2>
+      <p>Building on the success of the 2025 series, the 2026 Public Lecture Series moves into a space that embodies the "Digital Future." RXP @ REXKL provides a fully immersive, high-tech environment &mdash; 360-degree projection mapping, architectural-scale visuals, and spatial audio &mdash; that transforms a lecture into an experience.</p>
+      <p>Our proposal focuses on spatial transformation, premium hospitality for VVIPs, and seamless flow for a boutique audience of 100&ndash;150 participants.</p>
+    </div>
+
+    <div class="card-grid">
+      <div class="card reveal reveal-delay-1">
+        <div class="stat">518 sqm</div>
+        <h3>Main Hall</h3>
+        <p>16.4m &times; 31.6m industrial canvas with 360&deg; projection-mapped walls and floor</p>
+      </div>
+      <div class="card reveal reveal-delay-2">
+        <div class="stat">Up to 300</div>
+        <h3>Seating Capacity</h3>
+        <p>Configurable from intimate 100-pax lecture to full 300-pax. This event optimised for 150 with premium spacing.</p>
+      </div>
+      <div class="card reveal reveal-delay-3">
+        <div class="stat">19.3 sqm</div>
+        <h3>VVIP Holding Room</h3>
+        <p>Artist Room behind stage. 8&ndash;10 pax, premium sofa set for Minister &amp; Global Fellows</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ THE SPACE ═══════════════════ -->
+  <div class="section">
+    <div class="reveal">
+      <div class="section-label">02 &mdash; The Space</div>
+      <h2>Where Technology<br>Meets Storytelling</h2>
+      <p>RXP Hall transforms for every event. 18 laser projectors, media servers, and a professional sound system create a fully immersive environment. The space shifts from lecture theatre to 360-degree immersive canvas within minutes.</p>
+    </div>
+
+    <img src="images/mdec-panel.jpg" alt="Lecture configuration at RXP" class="featured-img reveal">
+    <p class="featured-caption reveal">Lecture and panel configuration &mdash; MDEC Immersive KL (August 2024)</p>
+
+    <div class="photo-grid">
+      <img src="images/immersive-green.jpg" alt="Seated audience, immersive green" class="reveal reveal-delay-1">
+      <img src="images/seated-geometric.jpg" alt="Seated with geometric projections" class="reveal reveal-delay-2">
+      <img src="images/immersive-green-wide.jpg" alt="Wide hall view" class="reveal reveal-delay-1">
+      <img src="images/foyer-registration.jpg" alt="Foyer registration" class="reveal reveal-delay-2">
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SPATIAL DESIGN ═══════════════════ -->
+  <div class="section">
+    <div class="reveal">
+      <div class="section-label">03 &mdash; Spatial Design</div>
+      <h2>Lecture Configuration</h2>
+      <p>The hall will be configured for a premium lecture experience with clear stage visibility, dedicated media zones, and seamless VVIP flow.</p>
+    </div>
+
+    <div class="card-grid" style="grid-template-columns: 1fr 1fr;">
+      <div class="card reveal reveal-delay-1">
+        <h3>Stage &amp; Presentation</h3>
+        <p>Raised stage with projection-mapped backdrop. Custom OUM/CENDEF visuals across 360&deg; surfaces. Speakers illuminated with dedicated wash lights and spotlights.</p>
+      </div>
+      <div class="card reveal reveal-delay-2">
+        <h3>Seating Layout</h3>
+        <p>100&ndash;150 premium chairs in lecture rows with wide spacing. Networking stools at the rear. Bean bag lounge for casual breakout.</p>
+      </div>
+      <div class="card reveal reveal-delay-3">
+        <h3>Media &amp; Interview Area</h3>
+        <p>Two options &mdash; foyer (high visibility) or prep area (controlled, quiet). Equipped for press interactions with branded backdrop.</p>
+      </div>
+      <div class="card reveal reveal-delay-4">
+        <h3>VVIP Flow</h3>
+        <p>Minister and Global Fellows enter via Artist Room behind stage. Private holding area with premium sofas, direct stage access.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ HOSPITALITY ═══════════════════ -->
+  <div class="section">
+    <div class="reveal">
+      <div class="section-label">04 &mdash; Hospitality</div>
+      <h2>Two-Tier Dining</h2>
+      <p>A split-venue strategy ensures VVIPs receive a premium sit-down experience while general guests enjoy a curated buffet at Food Fiction, located one floor below RXP.</p>
+    </div>
+
+    <div class="tier-grid">
+      <div class="tier vip reveal reveal-delay-1">
+        <h3>VVIP &amp; Speakers Lunch</h3>
+        <div class="venue-name">Pickle Dining &mdash; 1st Floor, REXKL</div>
+        <ul>
+          <li>34 pax &mdash; dedicated private section</li>
+          <li>Premium sit-down curated menu</li>
+          <li>Alternative: Reuben's Bar (2nd Floor), up to 50 pax</li>
+          <li>Est. RM 80/pax</li>
+        </ul>
+      </div>
+      <div class="tier reveal reveal-delay-2">
+        <h3>General Guest Buffet</h3>
+        <div class="venue-name">Food Fiction &mdash; One Floor Below RXP</div>
+        <ul>
+          <li>Approx. 100&ndash;115 pax</li>
+          <li>Buffet-style service</li>
+          <li>Premium local &amp; international cuisines</li>
+          <li>Convenient one-floor access from event space</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ TECHNICAL ═══════════════════ -->
+  <div class="section">
+    <div class="reveal">
+      <div class="section-label">05 &mdash; Technical</div>
+      <h2>Immersive Production Suite</h2>
+      <p>RXP's permanent infrastructure eliminates external AV rental. The space is designed ground-up for immersive projection and spatial audio.</p>
+    </div>
+
+    <div class="card-grid" style="grid-template-columns: 1fr 1fr;">
+      <div class="card reveal reveal-delay-1">
+        <h3>Digital Canvas</h3>
+        <p>18 laser projectors delivering 360&deg; projection mapping across walls and floor. Custom OUM-branded visuals for each speaker segment.</p>
+      </div>
+      <div class="card reveal reveal-delay-2">
+        <h3>Audio System</h3>
+        <p>Wireless microphones (lapel + handheld). Surround sound for spatial audio. Fully integrated with media servers.</p>
+      </div>
+      <div class="card reveal reveal-delay-3">
+        <h3>Stage Lighting</h3>
+        <p>Wash lights and spotlights ensure speakers are visible against the immersive backdrop. Atmospheric lighting synchronised with visual content.</p>
+      </div>
+      <div class="card reveal reveal-delay-4">
+        <h3>Climate Control</h3>
+        <p>Supplementary air conditioning for guest comfort in an enclosed 150-pax immersive projection environment.</p>
+      </div>
+    </div>
+
+    <div class="note-box reveal" style="margin-top: 40px;">
+      <p><strong>Accessibility:</strong> REXKL is a heritage building with stairs-only access to upper floors. All invitations should include a disclaimer. VVIPs can be dropped off at the main entrance.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ PARKING ═══════════════════ -->
+  <div class="section">
+    <div class="reveal">
+      <div class="section-label">06 &mdash; Access &amp; Parking</div>
+      <h2>Getting Here</h2>
+    </div>
+
+    <div class="parking-section reveal">
+      <img src="images/parking-map.jpg" alt="REXKL area parking map">
+      <div class="parking-info">
+        <h3>Parking Options</h3>
+        <ul>
+          <li><strong>Lorong Sultan covered car park</strong> &mdash; 2-minute walk to REXKL. Sheltered parking, recommended for all guests.</li>
+          <li><strong>Jalan Sultan lots</strong> &mdash; nearby mall and open-air facilities within walking distance.</li>
+          <li><strong>VVIP drop-off</strong> &mdash; vehicles can drop off directly at the REXKL main entrance on Jalan Sultan.</li>
+        </ul>
+        <p style="font-size: 13px; color: var(--text-muted); margin-top: 16px;">A detailed parking guide with map will be included in all guest invitations.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ QUOTATION ═══════════════════ -->
+  <div class="section">
+    <div class="reveal">
+      <div class="section-label">07 &mdash; Investment</div>
+      <h2>Quotation</h2>
+    </div>
+
+    <table class="pricing-table reveal">
+      <thead>
+        <tr>
+          <th style="width:20%">Item</th>
+          <th>Description</th>
+          <th style="width:13%">Standard</th>
+          <th style="width:16%">OUM Rate</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Venue Hire</strong></td>
+          <td>1 Event Day (Saturday, Weekend Rate)<br><span class="desc">RXP Hall 518 sqm, Artist Room / VVIP Holding, Foyer &amp; Registration. Up to 300 pax.</span></td>
+          <td class="struck">25,000</td>
+          <td>15,000 <span class="savings-badge">SAVE 40%</span></td>
+        </tr>
+        <tr>
+          <td><strong>Setup Day</strong></td>
+          <td>1 Weekday (Friday) &mdash; Full Access<br><span class="desc">Stage build, seating, AV calibration, rehearsal</span></td>
+          <td class="struck">10,000</td>
+          <td style="color: var(--green); font-weight: 700;">FOC</td>
+        </tr>
+        <tr>
+          <td><strong>Digital Canvas</strong></td>
+          <td>360&deg; Immersive Projection<br><span class="desc">Custom OUM/CENDEF visuals across walls &amp; floor. Setup + event day.</span></td>
+          <td></td>
+          <td>22,000</td>
+        </tr>
+        <tr>
+          <td><strong>Atmospheric Sync</strong></td>
+          <td>Sound &amp; Light Integration<br><span class="desc">Stage lighting, spatial audio, full technical crew. Setup + event day.</span></td>
+          <td></td>
+          <td>11,000</td>
+        </tr>
+        <tr>
+          <td><strong>Climate Control</strong></td>
+          <td>Supplementary Air Conditioning<br><span class="desc">Guest comfort for 150 pax enclosed immersive environment</span></td>
+          <td></td>
+          <td>9,500</td>
+        </tr>
+        <tr>
+          <td><strong>Furniture</strong></td>
+          <td>Seating &amp; Furnishing Package<br><span class="desc">Seminar chairs, wooden &amp; cushioned stools, bean bags, VVIP sofa set</span></td>
+          <td></td>
+          <td>2,500</td>
+        </tr>
+        <tr>
+          <td><strong>Cleaning</strong></td>
+          <td>Post-event turnover &amp; restoration</td>
+          <td></td>
+          <td>500</td>
+        </tr>
+        <tr>
+          <td><strong>VVIP Catering</strong></td>
+          <td>Pickle Dining / Reuben's Bar<br><span class="desc">Sit-down lunch, 34 VVIP pax @ RM 80/pax</span></td>
+          <td></td>
+          <td>2,720</td>
+        </tr>
+        <tr>
+          <td><strong>Guest Catering</strong></td>
+          <td>Food Fiction Buffet<br><span class="desc">Approx. 115 pax &mdash; vendor quote pending</span></td>
+          <td></td>
+          <td>TBC</td>
+        </tr>
+        <tr class="discount">
+          <td colspan="3"><strong>OUM/CENDEF Collaboration Savings</strong></td>
+          <td><strong>&minus; RM 35,000</strong></td>
+        </tr>
+        <tr class="subtotal">
+          <td colspan="3"><strong>Total (excl. general catering)</strong></td>
+          <td><strong>RM 63,220</strong></td>
+        </tr>
+        <tr class="total">
+          <td colspan="3">Estimated Total</td>
+          <td>RM 63,220 + catering TBC</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="reveal" style="margin-top: 28px; font-size: 12.5px;">
+      * All prices in Malaysian Ringgit (MYR), exclusive of SST where applicable.<br>
+      * Venue hire and setup reflect preferential OUM/CENDEF rate. Standard weekend rate: RM 25,000 + RM 10,000 setup.<br>
+      * General catering quote pending from Food Fiction.
+    </p>
+  </div>
+
+  <!-- ═══════════════════ NEXT STEPS ═══════════════════ -->
+  <div class="section">
+    <div class="reveal">
+      <div class="section-label">08 &mdash; Next Steps</div>
+      <h2>Moving Forward</h2>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item reveal reveal-delay-1">
+        <h4>Confirm Event Date &amp; Guest Count</h4>
+        <p>Lock in Saturday 12 September 2026 and confirm final headcount for seating and catering.</p>
+      </div>
+      <div class="timeline-item reveal reveal-delay-2">
+        <h4>Finalise Catering Packages</h4>
+        <p>Pickle Dining quote for 34-pax VVIP. Food Fiction buffet for general guests. Reuben's Bar as overflow.</p>
+      </div>
+      <div class="timeline-item reveal reveal-delay-3">
+        <h4>Approve Floor Plan</h4>
+        <p>Confirm seating layout, stage position, media area, and VVIP flow.</p>
+      </div>
+      <div class="timeline-item reveal reveal-delay-4">
+        <h4>Custom Visual Content Brief</h4>
+        <p>OUM/CENDEF branding assets and speaker info for 360&deg; projection visuals.</p>
+      </div>
+      <div class="timeline-item reveal">
+        <h4>Setup Day &mdash; Friday 11 September</h4>
+        <p>Full-day build: stage, seating, AV calibration, lighting, and rehearsal.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ FOOTER ═══════════════════ -->
+  <div class="footer reveal">
+    <div class="footer-logos">
+      <img src="images/rxp-logo-white.png" alt="RXP">
+      <div class="divider"></div>
+      <img src="images/oum-logo.svg" alt="OUM" class="oum-logo">
+    </div>
+    <p>Top Floor, No. 80, Jalan Sultan, 50000 Kuala Lumpur</p>
+    <div class="contact-line">
+      <p>Neisha Mutalib &mdash; Event Coordinator &bull; +60 13-699 5281</p>
+      <p>Sebastien Jurkowski &mdash; Creative Director &bull; +60 16-205 5945</p>
+      <p style="margin-top: 10px;">hello@rxpkl.com &bull; rxpkl.com</p>
+    </div>
+    <p style="margin-top: 40px; font-size: 11px; color: var(--text-muted);">This proposal is confidential and prepared exclusively for CENDEF / Open University Malaysia.<br>Valid for 30 days from date of issue. &copy; 2026 Rexperience Sdn Bhd.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════ SCROLL REVEAL JS ═══════════════════ -->
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
