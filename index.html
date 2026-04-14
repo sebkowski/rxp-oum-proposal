@@ -583,14 +583,26 @@
     .featured-img { height: 240px; margin-top: 32px; }
     .photo-grid { grid-template-columns: 1fr; gap: 12px; }
 
-    /* Pricing table — shrink padding & font, prefer wrap over scroll */
-    .pricing-table th { font-size: 9px; padding: 10px 8px; letter-spacing: 1.5px; }
-    .pricing-table td { padding: 12px 8px; font-size: 13px; }
-    .pricing-table td:nth-child(3),
-    .pricing-table td:last-child { font-size: 13px; }
+    /* Pricing table — hide the strikethrough "Standard" column on mobile;
+       it's secondary info (also restated in the footnote) and was the thing
+       crowding "OUM Rate" off-screen. Drop hard inline widths too. */
+    .pricing-table th,
+    .pricing-table td { width: auto !important; }
+    .pricing-table th:nth-child(3),
+    .pricing-table td:nth-child(3) { display: none; }
+    .pricing-table th { font-size: 9px; padding: 10px 6px; letter-spacing: 1.5px; }
+    .pricing-table td { padding: 12px 6px; font-size: 13px; white-space: normal; }
+    .pricing-table td:last-child { font-size: 13px; white-space: normal; }
     .pricing-table .desc { font-size: 11.5px; }
+    .pricing-table .savings-badge {
+      display: inline-block;
+      margin-left: 0;
+      margin-top: 4px;
+      font-size: 9px;
+      padding: 3px 6px;
+    }
     .pricing-table .subtotal td { font-size: 14px; padding-top: 20px; }
-    .pricing-table .total td { font-size: 18px; padding-top: 12px; }
+    .pricing-table .total td { font-size: 16px; padding-top: 12px; white-space: normal; }
   }
 
   /* ─── SMALL PHONES (≤420px) ─── */
