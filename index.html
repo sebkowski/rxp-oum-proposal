@@ -504,6 +504,86 @@
   }
   .footer p { font-size: 13px; color: var(--text-muted); }
   .footer .contact-line { margin-top: 28px; }
+
+  /* ─── MOBILE (≤768px) ─── */
+  @media (max-width: 768px) {
+    body { font-size: 14px; line-height: 1.7; }
+
+    /* Hero — let it grow with content instead of forcing 100vh on small screens */
+    .hero {
+      height: auto;
+      min-height: 560px;
+      padding: 56px 24px 48px;
+      background-attachment: scroll;
+    }
+    .hero-logos {
+      position: static;
+      transform: none;
+      gap: 18px;
+      margin: 24px auto 32px;
+    }
+    .hero-logos img { height: 56px; }
+    .hero-logos .oum-logo { height: 64px; }
+    .hero-logos .logo-divider { height: 28px; }
+    .hero h1 { font-size: 32px; line-height: 1.2; }
+    .hero .subtitle { font-size: 13px; }
+    .hero .eyebrow { font-size: 9px; padding: 6px 14px; }
+
+    /* Sections — tighter padding, smaller heads */
+    .container { padding: 0 20px; }
+    .section { padding: 56px 0; }
+    .section h2 { font-size: 26px; line-height: 1.25; }
+    .section .lead { font-size: 14px; }
+
+    /* Collapse every grid to a single column. !important beats the
+       inline grid-template-columns sprinkled through the body. */
+    .card-grid,
+    .tier-grid {
+      grid-template-columns: 1fr !important;
+      gap: 16px;
+    }
+
+    .card { padding: 24px 20px; }
+    .card h3 { font-size: 15px; }
+    .stat { font-size: 28px !important; }
+
+    .tier { padding: 24px 20px; }
+    .tier h3 { font-size: 17px; }
+
+    /* Timeline rail — shrink the indent so text doesn't get crushed */
+    .timeline { padding-left: 24px; }
+    .timeline::before { left: 8px; }
+    .timeline-item { padding-left: 16px; }
+    .timeline-item::before { left: -20px; }
+
+    .note-box { padding: 16px 18px; }
+    .note-box p { font-size: 12px; }
+
+    .footer { padding: 56px 0; }
+    .footer-logos { gap: 16px; }
+    .footer-logos img { height: 28px; }
+    .footer-logos .oum-logo { height: 34px; }
+
+    /* Pricing table — shrink padding & font, prefer wrap over scroll */
+    .pricing-table th { font-size: 9px; padding: 10px 8px; letter-spacing: 1.5px; }
+    .pricing-table td { padding: 12px 8px; font-size: 13px; }
+    .pricing-table td:nth-child(3),
+    .pricing-table td:last-child { font-size: 13px; }
+    .pricing-table .desc { font-size: 11.5px; }
+    .pricing-table .subtotal td { font-size: 14px; padding-top: 20px; }
+    .pricing-table .total td { font-size: 18px; padding-top: 12px; }
+  }
+
+  /* ─── SMALL PHONES (≤420px) ─── */
+  @media (max-width: 420px) {
+    .hero { padding: 48px 20px 40px; }
+    .hero h1 { font-size: 26px; }
+    .hero-logos { gap: 12px; }
+    .hero-logos img { height: 46px; }
+    .hero-logos .oum-logo { height: 54px; }
+    .section h2 { font-size: 22px; }
+    .container { padding: 0 16px; }
+  }
 </style>
 </head>
 <body>
