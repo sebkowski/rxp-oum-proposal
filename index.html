@@ -564,6 +564,25 @@
     .footer-logos img { height: 28px; }
     .footer-logos .oum-logo { height: 34px; }
 
+    /* Parking section — image+info side-by-side becomes stacked.
+       This was the off-screen culprit: 320px image + 32px gap + text
+       blew past viewport width and pushed the right column off-canvas. */
+    .parking-section {
+      flex-direction: column;
+      gap: 20px;
+    }
+    .parking-section img {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+    }
+    .parking-info { width: 100%; }
+
+    /* Defensive: any unstyled img should never exceed viewport */
+    img { max-width: 100%; height: auto; }
+    .featured-img { height: 240px; margin-top: 32px; }
+    .photo-grid { grid-template-columns: 1fr; gap: 12px; }
+
     /* Pricing table — shrink padding & font, prefer wrap over scroll */
     .pricing-table th { font-size: 9px; padding: 10px 8px; letter-spacing: 1.5px; }
     .pricing-table td { padding: 12px 8px; font-size: 13px; }
